@@ -1,0 +1,11 @@
+# Mengabaikan folder virtual environment
+venv/
+env/
+
+# Mengabaikan file cache python
+__pycache__/
+*.pyc
+
+# Mengabaikan database lokal dan file media (agar server mulai dengan bersih)
+db.sqlite3
+media/

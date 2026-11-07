@@ -1,0 +1,58 @@
+{% load static %}
+<nav class="sticky top-0 z-50 w-full border-b border-gray-100 bg-white">
+    <div class="mx-auto flex max-w-[1440px] flex-wrap items-center gap-x-3 gap-y-3 px-4 py-3 sm:px-6 xl:grid xl:max-w-none xl:grid-cols-[1fr_auto_1fr] xl:gap-0 xl:px-6">
+        <a href="{% url 'daftar_produk' %}" class="flex min-w-0 flex-1 items-center gap-2 sm:gap-3 xl:flex-none xl:justify-self-start">
+            <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-yellow-100">
+                <img src="{% static 'images/mahoga.jpeg' %}" alt="Logo Toko Mahoga Heryasa" class="h-8 w-8 rounded-full object-cover">
+            </div>
+            <span class="truncate text-base font-bold tracking-tight text-[#0108A1] sm:text-lg">Toko Mahoga Heryasa</span>
+        </a>
+        <div class="order-3 w-full xl:order-none xl:mx-8 xl:w-[42rem] xl:max-w-[calc(100vw_-_30rem)] xl:justify-self-center">
+            <form method="get" action="{% url 'search_products' %}" class="flex h-11 w-full items-center overflow-hidden rounded-full border border-gray-300 bg-white transition-colors focus-within:border-[#0108A1]">
+                <label for="global-navbar-search" class="sr-only">Cari produk</label>
+                <input id="global-navbar-search" type="search" name="q" value="{{ query|default:'' }}" placeholder="Cari di Toko Mahoga Heryasa" class="h-full w-full px-4 text-sm text-gray-700 outline-none sm:px-5">
+                <button type="submit" aria-label="Cari" class="flex h-full w-12 shrink-0 items-center justify-center bg-[#0108A1] text-white transition-colors hover:bg-blue-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
+                </button>
+            </form>
+        </div>
+        <div class="hidden shrink-0 items-center gap-3 sm:gap-6 xl:flex xl:justify-self-end">
+            <a href="{% url 'halaman_cart' %}" aria-label="Keranjang belanja" class="text-gray-700 transition-colors hover:text-[#0108A1]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+            </a>
+            <a href="{% url 'tracking_order' %}" aria-label="Lacak pesanan" class="text-gray-600 transition-colors hover:text-[#0108A1]">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+            </a>
+            <div class="h-8 w-px bg-gray-300"></div>
+            <a href="{% url 'account' %}" class="flex items-center gap-2 sm:gap-3">
+                {% if request.user.is_authenticated and request.user.profile.foto %}
+                    <img src="{{ request.user.profile.foto.url }}" class="h-9 w-9 rounded-full object-cover" alt="Foto profil {{ request.user.username }}">
+                {% else %}
+                    <span class="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500" aria-label="Profile"><svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.5"/><path stroke-linecap="round" d="M5 20a7 7 0 0 1 14 0"/></svg></span>
+                {% endif %}
+                <span class="hidden max-w-[8rem] truncate text-sm font-bold md:block">{{ request.user.username|default:'Login' }}</span>
+            </a>
+        </div>
+        <details class="relative order-2 ml-auto xl:hidden">
+            <summary aria-label="Buka menu" class="flex h-10 w-10 cursor-pointer list-none items-center justify-center rounded-full text-gray-700 hover:bg-gray-50 hover:text-[#0108A1] [&::-webkit-details-marker]:hidden">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </summary>
+            <div class="absolute right-0 top-12 z-50 w-56 rounded-xl border border-gray-100 bg-white p-2 shadow-lg">
+                <a href="{% url 'halaman_cart' %}" class="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#0108A1]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    <span>Keranjang</span>
+                </a>
+                <a href="{% url 'tracking_order' %}" class="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#0108A1]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" /></svg>
+                    <span>Lacak Pesanan</span>
+                </a>
+                <a href="{% url 'account' %}" class="flex items-center gap-3 rounded-lg px-3 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50 hover:text-[#0108A1]">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="8" r="3.5"/><path stroke-linecap="round" d="M5 20a7 7 0 0 1 14 0"/></svg>
+                    <span>{{ request.user.username|default:'Login' }}</span>
+                </a>
+            </div>
+        </details>
+    </div>
+</nav>

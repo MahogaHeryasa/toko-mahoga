@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Pengiriman - Toko Mahoga Heryasa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#EBEBEB] flex items-center justify-center min-h-screen p-6 font-sans text-gray-800">
+    
+    <div class="bg-white p-8 md:p-10 rounded-[2rem] shadow-sm w-full max-w-md">
+        
+        <h2 class="text-2xl font-black text-gray-900 mb-2 text-center">Detail Pengiriman</h2>
+        <p class="text-gray-500 mb-6 text-sm text-center">Ke mana pesanan ini akan dikirim?</p>
+        
+        <!-- Rangkuman Singkat -->
+        <div class="bg-gray-50 rounded-xl p-4 mb-6 border border-gray-100 flex justify-between items-center">
+            <span class="text-sm font-semibold text-gray-600">Total Tagihan:</span>
+            <span class="text-lg font-bold text-[#0108A1]">Rp {{ order.total_harga|floatformat:"0" }}</span>
+        </div>
+
+        <!-- Form Alamat -->
+        <form action="{% url 'simpan_alamat' order.order_id %}" method="POST">
+            {% csrf_token %}
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">Alamat Lengkap</label>
+                <textarea name="alamat" rows="4" required autofocus
+                    class="w-full border border-gray-300 rounded-xl p-3 text-sm focus:outline-none focus:border-[#0108A1] focus:ring-1 focus:ring-[#0108A1] transition-colors" 
+                    placeholder="Contoh: Jl. Margonda Raya No. 100, RT 01/02, Pondok Cina, Kota Depok. Patokan: Samping warung kopi."></textarea>
+            </div>
+
+            <button type="submit" class="w-full bg-[#0108A1] hover:bg-blue-900 text-white font-bold py-3.5 rounded-xl transition-colors shadow-md">
+                Lanjutkan ke Pembayaran
+            </button>
+        </form>
+        
+    </div>
+    
+</body>
+</html>

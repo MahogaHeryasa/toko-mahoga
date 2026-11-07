@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pelacakan Pesanan - Toko Mahoga Heryasa</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="flex min-h-screen flex-col bg-[#EBEBEB] font-sans text-gray-800">
+    {% include "main/includes/navbar.html" %}
+
+    <main class="mx-auto w-full max-w-3xl flex-1 p-4 py-8">
+        {% if orders %}
+            <div class="flex flex-col gap-4">
+                {% for order in orders %}
+                    <div class="rounded-2xl border border-gray-100 bg-white p-6 shadow-sm">
+                        <div class="mb-4 flex flex-col items-start justify-between gap-2 sm:flex-row sm:items-center">
+                            <div>
+                                <p class="text-xs font-medium text-gray-500">{{ order.tanggal_pesanan|date:"d M Y, H:i" }}</p>
+                                <p class="text-sm font-bold text-gray-900">{{ order.order_id }}</p>
+                            </div>
+                            <div class="rounded-full px-3 py-1 text-xs font-bold
+                                {% if order.status == 'Belum Dibayar' %}bg-red-100 text-red-600
+                                {% elif order.status == 'Lunas' %}bg-blue-100 text-blue-600
+                                {% elif order.status == 'Dikemas' %}bg-yellow-100 text-yellow-600
+                                {% elif order.status == 'Dikirim' %}bg-purple-100 text-purple-600
+                                {% elif order.status == 'Diterima' %}bg-green-100 text-green-600
+                                {% else %}bg-gray-100 text-gray-600{% endif %}">
+                                {{ order.status }}
+                            </div>
+                        </div>
+
+                        <div class="mb-4 border-y border-gray-100 py-4">
+                            {% for item in order.items.all %}
+                                <div class="mb-4 flex items-center justify-between text-sm last:mb-0">
+                                    <div class="flex items-center gap-3">
+                                        <span class="font-medium text-gray-800">{{ item.produk.nama }}</span>
+                                        <span class="text-gray-500">x{{ item.quantity }}</span>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <div class="flex flex-col items-center justify-between gap-4 sm:flex-row">
+                            <div>
+                                <p class="text-xs text-gray-500">Total Belanja</p>
+                                <p class="text-lg font-black text-[#0108A1]">Rp {{ order.total_harga|floatformat:"0" }}</p>
+                            </div>
+                            <div class="flex w-full flex-wrap justify-end gap-2 sm:w-auto">
+                                {% if order.status == 'Belum Dibayar' %}
+                                    <a href="{% url 'halaman_pembayaran' order.order_id %}" class="w-full rounded-xl bg-[#0108A1] px-6 py-2.5 text-center text-sm font-bold text-white transition-colors hover:bg-blue-900 sm:w-auto">Bayar Sekarang</a>
+                                {% elif order.status == 'Diterima' %}
+                                    {% for item in order.items.all %}
+                                        {% if not item.sudah_diulas %}
+                                            <a href="{% url 'tambah_ulasan' item.produk.id %}" class="w-full rounded-xl border border-blue-100 bg-blue-50 px-5 py-2.5 text-center text-sm font-bold text-[#0108A1] transition-colors hover:bg-blue-100 sm:w-auto">Beri Ulasan {% if order.items.all.count > 1 %}({{ item.produk.nama|truncatechars:12 }}){% endif %}</a>
+                                        {% else %}
+                                            <a href="{% url 'detail_produk' item.produk.id %}" class="w-full rounded-xl border border-green-200 bg-green-50 px-5 py-2.5 text-center text-sm font-bold text-green-700 transition-colors hover:bg-green-100 sm:w-auto">Beli Lagi {% if order.items.all.count > 1 %}({{ item.produk.nama|truncatechars:12 }}){% endif %}</a>
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="rounded-2xl bg-white py-20 text-center shadow-sm">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mx-auto mb-4 h-16 w-16 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 002-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <h3 class="mb-2 text-xl font-bold text-gray-900">Belum ada pesanan</h3>
+                <p class="text-sm text-gray-500">Anda belum melakukan transaksi apapun.</p>
+                <a href="/" class="mt-6 inline-block rounded-xl bg-[#0108A1] px-6 py-3 font-bold text-white shadow-md transition-colors hover:bg-blue-900">Mulai Belanja</a>
+            </div>
+        {% endif %}
+    </main>
+
+    <footer class="mt-auto border-t border-gray-100 bg-gray-50 px-6 py-10">
+        <div class="mx-auto grid max-w-7xl gap-8 text-left md:grid-cols-2">
+            <div>
+                <h2 class="text-lg font-bold text-[#0108A1]">Kontak Saya</h2>
+                <a href="mailto:hery.heryasa@gmail.com" class="mt-3 inline-block text-sm text-gray-600 hover:text-[#0108A1]">hery.heryasa@gmail.com</a>
+            </div>
+            <div class="md:text-right">
+                <h2 class="text-lg font-bold text-[#0108A1]">Sosial Media</h2>
+                <div class="mt-4 flex flex-wrap gap-3 md:justify-end">
+                    <a href="https://wa.me/6285945919526" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp" class="text-gray-600 hover:text-[#0108A1]"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.5 4.1 1.6 5.9L.2 24l6.5-1.7a11.8 11.8 0 0 0 5.4 1.3h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.1-1.3-6.1-3.5-8.3Z"/></svg></a>
+                    <a href="https://www.instagram.com/lulus_dunia_akhirat?obrf=M3IwMDY3ZGc4bmhk&amp;utm_source=qr" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="text-gray-600 hover:text-[#0108A1]"><svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+                    <a href="https://www.linkedin.com/in/mahogaheryasa/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="text-gray-600 hover:text-[#0108A1]"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M4.6 3.2A2.4 2.4 0 1 1 4.6 8a2.4 2.4 0 0 1 0-4.8ZM2.5 9.8h4.2v11.7H2.5V9.8Zm6.8 0h4v1.6h.1c.6-1.1 2-2.2 4.1-2.2 4.4 0 5.2 2.9 5.2 6.7v5.6h-4.2v-5c0-1.2 0-3.5-2.2-3.5s-2.5 1.6-2.5 3.4v5.1H9.3V9.8Z"/></svg></a>
+                    <a href="https://www.tiktok.com/@coolboypalmer?_r=1&amp;_t=ZS-9B8y1rVFYMK" target="_blank" rel="noopener noreferrer" aria-label="TikTok" class="text-gray-600 hover:text-[#0108A1]"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M16.6 3c.3 1.8 1.3 3.2 3.1 3.8v3.1c-1.2-.1-2.3-.5-3.2-1.1v6.8a5.4 5.4 0 1 1-4.7-5.3v3.1a2.3 2.3 0 1 0 1.6 2.2V3h3.2Z"/></svg></a>
+                    <a href="https://www.youtube.com/@herypalmercool" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="text-gray-600 hover:text-[#0108A1]"><svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a31 31 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8Z"/></svg></a>
+                </div>
+            </div>
+            <p class="text-xs text-gray-500 md:col-span-2">© 2026, PT. Toko Mahoga Heryasa All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
