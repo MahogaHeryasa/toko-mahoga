@@ -17,29 +17,29 @@
         {% include "main/includes/navbar.html" %}
 
     <!-- Main Content -->
-    <main class="max-w-[1400px] mx-auto px-6 py-8">
+    <main class="mx-auto max-w-[1400px] px-4 py-6 sm:px-6 sm:py-8">
         
         <!-- Banner (Warna Biru dan Merah) -->
-        <div class="w-full bg-gradient-to-r from-[#0108A1] to-[#FF0000] rounded-[2rem] h-64 flex items-center justify-center relative overflow-hidden mb-12 shadow-sm">
+        <div class="relative mb-8 flex min-h-[18rem] w-full items-center justify-center overflow-hidden rounded-[2rem] bg-gradient-to-r from-[#0108A1] to-[#FF0000] px-4 py-10 shadow-sm sm:mb-12 sm:min-h-[16rem] sm:px-8 md:min-h-[18rem] md:px-12">
             <!-- Decorative Elements -->
-            <div class="absolute left-10 top-0 h-full opacity-80 flex items-center">
+            <div class="absolute left-4 top-0 flex h-full items-center opacity-80 sm:left-10">
                 <!-- Aksen blur kuning -->
-                <div class="w-40 h-40 bg-[#F7D316] rounded-full blur-3xl absolute -left-10"></div>
+                <div class="absolute -left-10 h-32 w-32 rounded-full bg-[#F7D316] blur-3xl sm:h-40 sm:w-40"></div>
             </div>
-            <div class="absolute right-10 bottom-0 h-full opacity-40 flex items-center">
+            <div class="absolute bottom-0 right-4 flex h-full items-center opacity-40 sm:right-10">
                 <!-- Aksen blur putih di kanan -->
-                <div class="w-56 h-56 bg-white rounded-full blur-3xl absolute -right-10"></div>
+                <div class="absolute -right-10 h-40 w-40 rounded-full bg-white blur-3xl sm:h-56 sm:w-56"></div>
             </div>
             
-            <div class="text-center z-10 flex flex-col items-center px-4">
-                <span class="text-[#F7D316] font-bold tracking-[0.1em] mb-3 uppercase text-sm md:text-base">Selamat Datang</span>
-                <h1 class="text-white text-4xl md:text-6xl font-black tracking-tight flex flex-col md:flex-row items-center gap-3">
-                    Mari Berbelanja di <span class="text-white">Toko Mahoga Heryasa</span>
+            <div class="relative z-10 flex max-w-4xl flex-col items-center px-2 text-center">
+                <span class="mb-3 text-xs font-bold uppercase tracking-[0.1em] text-[#F7D316] sm:text-sm md:text-base">Selamat Datang</span>
+                <h1 class="flex flex-col items-center gap-1 text-3xl font-black leading-tight tracking-tight text-white sm:text-4xl md:text-5xl lg:text-6xl">
+                    <span>Mari Berbelanja di</span> <span>Toko Mahoga Heryasa</span>
                 </h1>
                 
-                <button class="mt-8 bg-white text-[#0108A1] hover:bg-gray-100 font-bold py-2.5 px-8 rounded-full transition-transform hover:scale-105 shadow-lg">
+                <a href="{% url 'search_products' %}" class="mt-6 inline-flex min-h-11 items-center justify-center rounded-full bg-white px-7 py-2.5 text-sm font-bold text-[#0108A1] shadow-lg transition-transform hover:scale-105 hover:bg-gray-100 sm:mt-8 sm:px-8 sm:text-base">
                     MULAI BELANJA
-                </button>
+                </a>
             </div>
         </div>
 
